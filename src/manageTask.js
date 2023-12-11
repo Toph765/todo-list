@@ -15,6 +15,8 @@ const NewTask = (() => {
         const task = createTask(title, description, duedate, priority);
         
         console.log(task);
+
+        AddtoList.addToList(task);
     }
 
     function reset() {
@@ -42,6 +44,17 @@ const NewTask = (() => {
 
     return { createNewTask, submitTask }
 })();
+
+const AddtoList = (() => {
+    let TodoList = [];
+
+    function addToList(task) {
+        TodoList.push(task);
+        console.log(TodoList);
+    }
+
+    return { addToList, TodoList };
+})()
 
 
 export { NewTask }

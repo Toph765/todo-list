@@ -1,3 +1,3 @@
-import { NewTask } from "./createTask.js";
+import { NewTask } from "./manageTask.js";
 
 NewTask.submitTask();
