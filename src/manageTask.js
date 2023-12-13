@@ -1,3 +1,7 @@
+import { AddtoList } from "./manageList";
+import { renderTask } from "./UI";
+
+
 const createTask = (id, title, description, duedate, priority, completed) => {
     return {
         id, title, description, duedate, priority, completed
@@ -48,24 +52,21 @@ const NewTask = (() => {
         const submitBtn = document.querySelector('#submit');
         submitBtn.addEventListener('click', (e) => {
             createNewTask();
+            renderTask.displayTask();
             reset();
             e.preventDefault();
             });
     }
 
-    return { createNewTask, submitTask }
-})();
-
-const AddtoList = (() => {
-    let TodoList = [];
-
-    function addToList(task) {
-        TodoList.push(task);
-        console.log(TodoList);
+    function cancelTask() {
+        const cancelBtn = document.querySelector('#cancel');
+        cancelBtn.addEventListener('click', (e) => {
+            reset();
+            e.preventDefault();
+        })
     }
 
-    return { addToList, TodoList };
-})()
-
+    return { createNewTask, submitTask, cancelTask }
+})();
 
 export { NewTask }
