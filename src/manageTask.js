@@ -50,23 +50,44 @@ const NewTask = (() => {
 
     function submitTask() {
         const submitBtn = document.querySelector('#submit');
+        const newTaskForm = document.querySelector('form');
+        const newTaskBtn = document.querySelector('#newTask');
+
         submitBtn.addEventListener('click', (e) => {
             createNewTask();
             renderTask.displayTask();
             reset();
+            newTaskForm.setAttribute('hidden', '');
+            newTaskBtn.removeAttribute('hidden');
             e.preventDefault();
             });
     }
 
     function cancelTask() {
         const cancelBtn = document.querySelector('#cancel');
+        const newTaskForm = document.querySelector('form');
+        const newTaskBtn = document.querySelector('#newTask');
+
         cancelBtn.addEventListener('click', (e) => {
             reset();
+            newTaskForm.setAttribute('hidden', '');
+            newTaskBtn.removeAttribute('hidden');
             e.preventDefault();
         })
     }
 
-    return { createNewTask, submitTask, cancelTask }
+    function openTaskCreator() {
+        const newTaskBtn = document.querySelector('#newTask');
+        const newTaskForm = document.querySelector('form');
+
+        newTaskBtn.addEventListener('click', (e) => {
+            newTaskForm.removeAttribute('hidden');
+            newTaskBtn.setAttribute('hidden', '');
+            e.preventDefault();
+        })
+    }
+
+    return { createNewTask, submitTask, cancelTask, openTaskCreator }
 })();
 
 export { NewTask }
