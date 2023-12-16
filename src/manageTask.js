@@ -2,9 +2,9 @@ import { AddtoList } from "./manageList";
 import { renderTask } from "./UI";
 
 
-const createTask = (id, title, description, duedate, priority, completed) => {
+const createTask = (id, title, description, duedate, priority, project) => {
     return {
-        id, title, description, duedate, priority, completed
+        id, title, description, duedate, priority, project
     }
 }
 
@@ -16,10 +16,11 @@ const NewTask = (() => {
         let duedate = document.getElementById('date').value;
         let priority = document.getElementById('priority').value;
         let id = createId();
-        let completed = false;
+        let project = 'placeholder'
 
-        const task = createTask(id, title, description, duedate, priority, completed);
+        const task = createTask(id, title, description, duedate, priority, project);
         console.log(task);
+
         AddtoList.addToList(task);
     }
 
@@ -48,19 +49,24 @@ const NewTask = (() => {
         priority.value = 'Low';
     }
 
-    function submitTask() {
+    function initSubmitBtn() {
         const submitBtn = document.querySelector('#submit');
-        const newTaskForm = document.querySelector('form');
-        const newTaskBtn = document.querySelector('#newTask');
 
         submitBtn.addEventListener('click', (e) => {
-            createNewTask();
-            renderTask.displayTask();
-            reset();
-            newTaskForm.setAttribute('hidden', '');
-            newTaskBtn.removeAttribute('hidden');
+            submitTask();
             e.preventDefault();
             });
+    }
+
+    function submitTask() {
+        const newTaskForm = document.querySelector('form');
+        const newTaskBtn = document.querySelector('#newTask');
+        
+        createNewTask();
+        renderTask.displayTask();
+        reset();
+        newTaskForm.setAttribute('hidden', '');
+        newTaskBtn.removeAttribute('hidden');
     }
 
     function cancelTask() {
@@ -87,7 +93,7 @@ const NewTask = (() => {
         })
     }
 
-    return { createNewTask, submitTask, cancelTask, openTaskCreator }
+    return { createNewTask, initSubmitBtn, cancelTask, openTaskCreator }
 })();
 
 export { NewTask }
