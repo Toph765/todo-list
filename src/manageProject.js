@@ -1,9 +1,16 @@
+import { renderProject } from "./UI";
+import { AddtoList } from "./manageList";
+
 const newProject = (title, taskList, id) => {
     return { title, taskList, id };
 }
 
 const projects = (() => {
     let projectList = [];
+    let taskList = AddtoList.TodoList;
+
+    const generalList = newProject('General', taskList, 0);
+    projectList.push(generalList);
 
     function createProject() {
         const projectTitle = document.querySelector('#projectTitle').value;
@@ -34,11 +41,22 @@ const projects = (() => {
 
         createProjectBtn.addEventListener('click', (e) => {
             createProject();
+            renderProject.displayProject();
             e.preventDefault();
         })
     }
 
-    return { submitProject }
+    function submitProjectTask() {
+        const newProjectTask = document.querySelector('.projectTask');
+        
+        newProjectTask.addEventListener('click', (e) => {
+            
+            
+            e.preventDefault();
+        })
+    }
+
+    return { submitProject, projectList }
 })()
 
 export { projects }
