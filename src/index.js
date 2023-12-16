@@ -1,7 +1,7 @@
 import { NewTask } from "./manageTask.js";
 import { projects } from "./manageProject.js";
 
-NewTask.submitTask();
+NewTask.initSubmitBtn();
 NewTask.cancelTask();
 NewTask.openTaskCreator();
 
