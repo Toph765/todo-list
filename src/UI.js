@@ -1,9 +1,10 @@
 import { AddtoList } from "./manageList";
+import { NewTask } from "./manageTask"; 
 import { projects } from "./manageProject";
 
 const renderTask = (() => {
-    function displayTask() {
-        let list = AddtoList.TodoList;
+    function displayAllTask() {
+        let list = projects.projectList[0].taskList;
         let itemToDisplay = list[list.length - 1];
 
         const generalList = document.querySelector('#general');
@@ -27,7 +28,7 @@ const renderTask = (() => {
         return generalList;
     }
 
-    return { displayTask }
+    return { displayAllTask }
 })()
 
 const renderProject = (() => {
@@ -35,18 +36,23 @@ const renderProject = (() => {
         let list = projects.projectList;
         let project = list[list.length - 1];
 
-        const projectDisplay = document.querySelector('#projects');
+        const projectDisplay = document.querySelector('#Allprojects');
         const container = document.createElement('div');
 
         const projectTitle = document.createElement('div');
         const projectTaskBtn = document.createElement('button');
 
+        container.classList.add('project');
         container.setAttribute('data-projectId', `${project.id}`);
         projectTaskBtn.setAttribute('data-projectId', `${project.id}`);
-        projectTaskBtn.classList.add('projectTask');
+        projectTaskBtn.setAttribute('id', `project-${project.id}`);
 
         projectTitle.textContent = `${project.title}`;
         projectTaskBtn.textContent = '+';
+
+        projectTaskBtn.addEventListener('click', (e) => {
+            console.log(projects.grabProjectId(e));
+        })
 
         container.append(projectTitle, projectTaskBtn);
         projectDisplay.appendChild(container);
