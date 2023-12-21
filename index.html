@@ -12,10 +12,12 @@
     </header>
 
     <nav>
-        <div>
-            <input type="text" id="projectTitle" name="projectTitle" placeholder="Project title">
-            <button id="createProject">Create</button>
-        </div>
+        <form>
+            <div>
+            <input type="text" id="projectTitle" name="projectTitle" placeholder="Project title" required>
+            <button type="submit" id="createProject">Create</button>
+            </div>
+        </form>
     </nav>
     <main>
         <button data-projectId="0" id="newTask">+</button>
