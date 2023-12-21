@@ -1,5 +1,6 @@
 import { AddtoList } from "./manageList";
 import { renderTask } from "./UI";
+import { projects } from "./manageProject";  
 
 
 const createTask = (id, title, description, duedate, priority, project) => {
@@ -10,13 +11,21 @@ const createTask = (id, title, description, duedate, priority, project) => {
 
 const NewTask = (() => {
 
+    let projectId = 0;
+
+    function changeProjectId(newProject) {
+        return projectId = newProject;
+    }
+
+    
+
     function createNewTask() {
         let title = document.getElementById('title').value;
         let description = document.getElementById('description').value;
         let duedate = document.getElementById('date').value;
         let priority = document.getElementById('priority').value;
         let id = createId();
-        let project = 'placeholder'
+        let project = projectId;
 
         const task = createTask(id, title, description, duedate, priority, project);
         console.log(task);
@@ -63,7 +72,7 @@ const NewTask = (() => {
         const newTaskBtn = document.querySelector('#newTask');
         
         createNewTask();
-        renderTask.displayTask();
+        renderTask.displayAllTask();
         reset();
         newTaskForm.setAttribute('hidden', '');
         newTaskBtn.removeAttribute('hidden');
