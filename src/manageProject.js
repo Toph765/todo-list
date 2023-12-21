@@ -1,5 +1,6 @@
 import { renderProject } from "./UI";
 import { AddtoList } from "./manageList";
+import { NewTask } from "./manageTask";
 
 const newProject = (title, taskList, id) => {
     return { title, taskList, id };
@@ -46,17 +47,11 @@ const projects = (() => {
         })
     }
 
-    function submitProjectTask() {
-        const newProjectTask = document.querySelector('.projectTask');
-        
-        newProjectTask.addEventListener('click', (e) => {
-            
-            
-            e.preventDefault();
-        })
+    function grabProjectId(e) {
+        return e.target.getAttribute('data-projectId');
     }
 
-    return { submitProject, projectList }
+    return { submitProject, grabProjectId, projectList }
 })()
 
 export { projects }
