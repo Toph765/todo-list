@@ -18,9 +18,12 @@ const projects = (() => {
         const projectId = createProjectId()
         const projectTasks = [];
 
-        const project = newProject(projectTitle, projectTasks, projectId);
-        console.log(project);
-        addToProjectList(project);
+        if (projectTitle === '') return
+        else {
+            const project = newProject(projectTitle, projectTasks, projectId);
+            console.log(project);
+            addToProjectList(project);
+        }
     }
 
     function createProjectId() {
@@ -41,9 +44,11 @@ const projects = (() => {
         const createProjectBtn = document.querySelector('#createProject');
 
         createProjectBtn.addEventListener('click', (e) => {
-            createProject();
-            renderProject.displayProject();
             e.preventDefault();
+            
+            createProject();
+            if (projectList.length === 1) return
+            else renderProject.displayProject();
         })
     }
 
