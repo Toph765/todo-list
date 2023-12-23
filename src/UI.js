@@ -51,7 +51,12 @@ const renderProject = (() => {
         projectTaskBtn.textContent = '+';
 
         projectTaskBtn.addEventListener('click', (e) => {
-            console.log(projects.grabProjectId(e));
+            console.log('project id', projects.grabProjectId(e));
+            const newTaskForm = document.querySelector('#main-form');
+
+            projects.grabProjectId(e);
+            newTaskForm.removeAttribute('hidden');
+            e.preventDefault();
         })
 
         container.append(projectTitle, projectTaskBtn);
