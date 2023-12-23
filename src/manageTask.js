@@ -12,17 +12,35 @@ const createTask = (id, title, description, duedate, priority, project) => {
 const NewTask = (() => {
 
     function createNewTask() {
+        const projectList = projects.grabProjectList();
+
         let title = document.getElementById('title').value;
         let description = document.getElementById('description').value;
         let duedate = document.getElementById('date').value;
         let priority = document.getElementById('priority').value;
         let id = createId();
-        let project = projects.grabCurrentProject();
+        let projectId = projects.grabCurrentProject();
+        console.log('project id at create newtask', projectList)
 
-        const task = createTask(id, title, description, duedate, priority, project);
+        const task = createTask(id, title, description, duedate, priority, projectId);
         console.log(task);
 
-        AddtoList.addToList(task);
+        for (let i = 0; i < projectList.length; i++) {
+            if (projectList[i].id === projectId) {
+                console.log('hello')
+                projectList[i].taskList.push(task);
+                console.log(projectList)
+            }
+        }
+
+        /* projectList.forEach(project => {
+            if (project.id === projectId) {
+                project.taskList.push(task);
+                console.log('project list', projectList);
+            }
+        }) */
+
+        /* AddtoList.addToList(task); */
     }
 
     function createId() {
