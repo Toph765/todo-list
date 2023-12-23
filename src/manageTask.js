@@ -11,21 +11,13 @@ const createTask = (id, title, description, duedate, priority, project) => {
 
 const NewTask = (() => {
 
-    let projectId = 0;
-
-    function changeProjectId(newProject) {
-        return projectId = newProject;
-    }
-
-    
-
     function createNewTask() {
         let title = document.getElementById('title').value;
         let description = document.getElementById('description').value;
         let duedate = document.getElementById('date').value;
         let priority = document.getElementById('priority').value;
         let id = createId();
-        let project = projectId;
+        let project = projects.grabCurrentProject();
 
         const task = createTask(id, title, description, duedate, priority, project);
         console.log(task);
@@ -68,7 +60,7 @@ const NewTask = (() => {
     }
 
     function submitTask() {
-        const newTaskForm = document.querySelector('form');
+        const newTaskForm = document.querySelector('#main-form');
         const newTaskBtn = document.querySelector('#newTask');
         
         createNewTask();
@@ -80,7 +72,7 @@ const NewTask = (() => {
 
     function cancelTask() {
         const cancelBtn = document.querySelector('#cancel');
-        const newTaskForm = document.querySelector('form');
+        const newTaskForm = document.querySelector('#main-form');
         const newTaskBtn = document.querySelector('#newTask');
 
         cancelBtn.addEventListener('click', (e) => {
@@ -93,9 +85,10 @@ const NewTask = (() => {
 
     function openTaskCreator() {
         const newTaskBtn = document.querySelector('#newTask');
-        const newTaskForm = document.querySelector('form');
+        const newTaskForm = document.querySelector('#main-form');
 
         newTaskBtn.addEventListener('click', (e) => {
+            projects.grabProjectId(e);
             newTaskForm.removeAttribute('hidden');
             newTaskBtn.setAttribute('hidden', '');
             e.preventDefault();
