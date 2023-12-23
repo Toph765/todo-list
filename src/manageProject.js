@@ -9,7 +9,7 @@ const newProject = (title, taskList, id) => {
 const projects = (() => {
 
     let projectList = [];
-    
+
     let taskList = AddtoList.TodoList;
 
     const generalList = newProject('General', taskList, 0);
@@ -19,6 +19,10 @@ const projects = (() => {
 
     function grabCurrentProject() {
         return currentProject;
+    }
+
+    function grabProjectList() {
+        return projectList;
     }
 
     function createProject() {
@@ -61,14 +65,14 @@ const projects = (() => {
     }
 
     function grabProjectId(e) {
-        let projectId =  e.target.getAttribute('data-projectId');
+        let projectId = parseInt(e.target.getAttribute('data-projectId'));
 
         currentProject = projectId;
 
         return currentProject;
     }
 
-    return { submitProject, grabProjectId, grabCurrentProject, projectList }
+    return { submitProject, grabProjectId, grabCurrentProject, grabProjectList, projectList }
 })()
 
 export { projects }
