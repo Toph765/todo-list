@@ -25,22 +25,18 @@ const NewTask = (() => {
         const task = createTask(id, title, description, duedate, priority, projectId);
         console.log(task);
 
-        for (let i = 0; i < projectList.length; i++) {
-            if (projectList[i].id === projectId) {
-                console.log('hello')
-                projectList[i].taskList.push(task);
-                console.log(projectList)
-            }
+        if (projectId === 0) {
+            projectList[0].taskList.push(task);
+            console.log(projectList)
         }
 
-        /* projectList.forEach(project => {
-            if (project.id === projectId) {
-                project.taskList.push(task);
-                console.log('project list', projectList);
-            }
-        }) */
-
-        /* AddtoList.addToList(task); */
+        for (let i = 1; i < projectList.length; i++) {
+            if (projectList[i].id === projectId) {
+                AddtoList.addToList(task);
+                projectList[i].taskList.push(task);
+                console.log(projectList)
+            } else return
+        }
     }
 
     function createId() {
