@@ -35,7 +35,7 @@ const NewTask = (() => {
                 AddtoList.addToList(task);
                 projectList[i].taskList.push(task);
                 console.log(projectList)
-            } else return
+            }
         }
     }
 
