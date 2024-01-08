@@ -11,32 +11,40 @@ const createTask = (id, title, description, duedate, priority, project) => {
 
 const NewTask = (() => {
 
+    let title;
+    let description;
+
     function createNewTask() {
         const projectList = projects.grabProjectList();
 
-        let title = document.getElementById('title').value;
-        let description = document.getElementById('description').value;
+        title = document.getElementById('title').value;
+        description = document.getElementById('description').value;
+
         let duedate = document.getElementById('date').value;
         let priority = document.getElementById('priority').value;
         let id = createId();
         let projectId = projects.grabCurrentProject();
-        console.log('project id at create newtask', projectList)
 
-        const task = createTask(id, title, description, duedate, priority, projectId);
-        console.log(task);
+        if (title === '' ||
+            description === '' ||
+            duedate === '') return
+        else {
+            const task = createTask(id, title, description, duedate, priority, projectId);
+            console.log(task);
 
-        if (projectId === 0) {
-            projectList[0].taskList.push(task);
-            console.log(projectList)
-        }
-
-        for (let i = 1; i < projectList.length; i++) {
-            if (projectList[i].id === projectId) {
-                AddtoList.addToList(task);
-                projectList[i].taskList.push(task);
+            if (projectId === 0) {
+                projectList[0].taskList.push(task);
                 console.log(projectList)
             }
-        }
+
+            for (let i = 1; i < projectList.length; i++) {
+                if (projectList[i].id === projectId) {
+                    AddtoList.addToList(task);
+                    projectList[i].taskList.push(task);
+                    console.log(projectList)
+                }
+            }
+        } 
     }
 
     function createId() {
@@ -51,11 +59,13 @@ const NewTask = (() => {
     }
 
     function reset() {
-        let title = document.getElementById('title');
-        title.value = '';
+        let titleValue = document.getElementById('title');
+        titleValue.value = '';
+        title = '';
 
-        let description = document.getElementById('description');
-        description.value = '';
+        let descriptionValue = document.getElementById('description');
+        descriptionValue.value = '';
+        description = '';
 
         let duedate = document.getElementById('date');
         duedate.value = '';
@@ -78,10 +88,14 @@ const NewTask = (() => {
         const newTaskBtn = document.querySelector('#newTask');
         
         createNewTask();
-        renderTask.displayAllTask();
-        reset();
-        newTaskForm.setAttribute('hidden', '');
-        newTaskBtn.removeAttribute('hidden');
+
+        if (title === '' || description === '') return
+        else {
+            renderTask.displayAllTask();
+            reset();
+            newTaskForm.setAttribute('hidden', '');
+            newTaskBtn.removeAttribute('hidden');
+        }
     }
 
     function cancelTask() {
