@@ -7,7 +7,7 @@ const newProject = (title, taskList, id) => {
 }
 
 const projects = (() => {
-
+    let projectTitle
     let projectList = [];
 
     let taskList = AddtoList.TodoList;
@@ -26,7 +26,7 @@ const projects = (() => {
     }
 
     function createProject() {
-        const projectTitle = document.querySelector('#projectTitle').value;
+        projectTitle = document.querySelector('#projectTitle').value;
         const projectId = createProjectId()
         const projectTasks = [];
 
@@ -52,6 +52,12 @@ const projects = (() => {
         console.log(projectList);
     }
 
+    function reset() {
+        let projectTitleValue = document.querySelector('#projectTitle');
+        projectTitleValue.value = '';
+        projectTitle = '';
+    }
+
     function submitProject() {
         const createProjectBtn = document.querySelector('#createProject');
 
@@ -59,8 +65,11 @@ const projects = (() => {
             e.preventDefault();
             
             createProject();
-            if (projectList.length === 1) return
-            else renderProject.displayProject();
+            if (projectTitle === '') return
+            else {
+                renderProject.displayProject();
+                reset();
+            }
         })
     }
 
