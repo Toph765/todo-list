@@ -7,43 +7,64 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <div class="logo"></div>
-    </header>
-
-    <nav>
-        <form id="project-form">
-            <input type="text" id="projectTitle" name="projectTitle" placeholder="Project title">
-            <button type="submit" id="createProject">Create</button>
-        </form>
-    </nav>
-    <main>
-        <button data-projectId="0" id="newTask">+</button>
-        <form id="main-form" hidden>
-            <div>
-                <input type="text" id="title" name="title" placeholder="title">
+    <div class="main-container">
+        <header>
+            <div class="logo"></div>
+            <h1>ToDo List</h1>
+        </header>
+    
+        <nav>
+            <div class="upper">
+                <div>
+                    <h3>Inbox</h3>
+                </div>
+                <div>
+                    <h3>Today</h3>
+                </div>
+                <div>
+                    <h3>This week</h3>
+                </div>
             </div>
-            <div>
-                <textarea name="description" id="description" cols="30" rows="10" placeholder="description"></textarea>
+    
+            <div class="lower">
+                <h2>Projects</h2>
+                <form id="project-form">
+                    <input type="text" id="projectTitle" name="projectTitle" placeholder="Project title">
+                    <button type="submit" id="createProject">Create</button>
+                </form>
+                <div class="all-project">
+                </div>
             </div>
-            <div>
-                <input type="date" id="date" name="date">
+        </nav>
+    
+        <main>
+            <button data-projectId="0" id="newTask">+</button>
+            <form id="main-form" hidden>
+                <div>
+                    <input type="text" id="title" name="title" placeholder="title">
+                </div>
+                <div>
+                    <textarea name="description" id="description" cols="30" rows="10" placeholder="description"></textarea>
+                </div>
+                <div>
+                    <input type="date" id="date" name="date">
+                </div>
+                <div>
+                    <select id="priority" name="priority">
+                        <option selected>Low</option>
+                        <option>Medium</option>
+                        <option>High</option>
+                    </select>
+                </div>
+                <button id="submit">submit</button>
+                <button id="cancel">cancel</button>
+            </form>
+            <div id="general">
             </div>
-            <div>
-                <select id="priority" name="priority">
-                    <option selected>Low</option>
-                    <option>Medium</option>
-                    <option>High</option>
-                </select>
+            <div id="Allprojects">
             </div>
-            <button id="submit">submit</button>
-            <button id="cancel">cancel</button>
-        </form>
-        <div id="general">
-        </div>
-        <div id="Allprojects">
-        </div>
-    </main>
+        </main>
+    </div>
     <script src="main.js"></script>
 </body>
 </html>
