@@ -36,7 +36,7 @@ const renderProject = (() => {
         let list = projects.projectList;
         let project = list[list.length - 1];
 
-        const projectDisplay = document.querySelector('#Allprojects');
+        const projectDisplay = document.querySelector('.all-projects');
         const container = document.createElement('div');
 
         const projectTitle = document.createElement('div');
