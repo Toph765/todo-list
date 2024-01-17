@@ -1,34 +1,37 @@
-import { AddtoList } from "./manageList";
-import { NewTask } from "./manageTask"; 
 import { projects } from "./manageProject";
 
 const renderTask = (() => {
-    function displayAllTask() {
-        let list = projects.projectList[0].taskList;
-        let itemToDisplay = list[list.length - 1];
-
-        const generalList = document.querySelector('#general');
+    function displayAllTask(items, display) {
         const container = document.createElement('div');
 
-        container.setAttribute('data-taskId', `${itemToDisplay.id}`)
+        container.setAttribute('data-taskId', `${items.id}`)
 
         const title = document.createElement('div')
         const duedate = document.createElement('div');
         const description = document.createElement('div');
         const priority = document.createElement('div');
 
-        title.textContent = `Title: ${itemToDisplay.title}`;
-        duedate.textContent = `Due Date: ${itemToDisplay.duedate}`;
-        description.textContent = `Description: ${itemToDisplay.description}`;
-        priority.textContent = `Priority: ${itemToDisplay.priority}`;
+        title.textContent = `Title: ${items.title}`;
+        duedate.textContent = `Due Date: ${items.duedate}`;
+        description.textContent = `Description: ${items.description}`;
+        priority.textContent = `Priority: ${items.priority}`;
 
         container.append(title, duedate, description, priority);
-        generalList.appendChild(container);
+        display.appendChild(container);
 
-        return generalList;
+        return display;
     }
 
-    return { displayAllTask }
+    function displayInbox() {
+        let list = projects.projectList[0].taskList;
+        let items = list[list.length - 1];
+
+        const generalList = document.querySelector('#general');
+        
+        displayAllTask(items, generalList);
+    }
+
+    return { displayInbox }
 })()
 
 const renderProject = (() => {

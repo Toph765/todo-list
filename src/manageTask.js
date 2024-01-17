@@ -1,6 +1,7 @@
 import { AddtoList } from "./manageList";
 import { renderTask } from "./UI";
-import { projects } from "./manageProject";  
+import { projects } from "./manageProject";
+import { toDate, isThisWeek, isToday } from "date-fns";
 
 
 const createTask = (id, title, description, duedate, priority, project) => {
@@ -24,6 +25,9 @@ const NewTask = (() => {
         let priority = document.getElementById('priority').value;
         let id = createId();
         let projectId = projects.grabCurrentProject();
+
+        console.log(isThisWeek(toDate(duedate)))
+        console.log(isToday(toDate(duedate)))
 
         if (title === '' ||
             description === '' ||
@@ -91,7 +95,7 @@ const NewTask = (() => {
 
         if (title === '' || description === '') return
         else {
-            renderTask.displayAllTask();
+            renderTask.displayInbox();
             reset();
             newTaskForm.setAttribute('hidden', '');
             newTaskBtn.removeAttribute('hidden');
