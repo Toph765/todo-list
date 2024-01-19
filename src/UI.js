@@ -1,4 +1,5 @@
 import { projects } from "./manageProject";
+import { isToday, toDate } from "date-fns";
 
 const renderTask = (() => {
     function displayAllTask(items, display) {
@@ -31,7 +32,22 @@ const renderTask = (() => {
         displayAllTask(items, generalList);
     }
 
-    return { displayInbox }
+    function displayDaily() {
+        let list = projects.projectList[0].taskList;
+        const generalList = document.querySelector('#general');
+
+        while (generalList.lastElementChild) {
+            generalList.removeChild(generalList.lastElementChild);
+        }
+        
+        const dailyTasks = list.filter(task => isToday(toDate(task.duedate)));
+        
+        dailyTasks.forEach(task => {
+            displayAllTask(task, generalList);
+        });
+    }
+
+    return { displayInbox, displayDaily }
 })()
 
 const renderProject = (() => {
