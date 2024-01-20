@@ -1,5 +1,5 @@
 import { projects } from "./manageProject";
-import { isToday, toDate } from "date-fns";
+import { isToday, toDate, isThisWeek } from "date-fns";
 
 const renderTask = (() => {
     function displayAllTask(items, display) {
@@ -23,7 +23,7 @@ const renderTask = (() => {
         return display;
     }
 
-    function displayInbox() {
+    function displayNewInput() {
         let list = projects.projectList[0].taskList;
         let items = list[list.length - 1];
 
@@ -36,18 +36,25 @@ const renderTask = (() => {
         let list = projects.projectList[0].taskList;
         const generalList = document.querySelector('#general');
 
-        while (generalList.lastElementChild) {
-            generalList.removeChild(generalList.lastElementChild);
-        }
+        while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
         
         const dailyTasks = list.filter(task => isToday(toDate(task.duedate)));
         
-        dailyTasks.forEach(task => {
-            displayAllTask(task, generalList);
-        });
+        dailyTasks.forEach(task => displayAllTask(task, generalList));
     }
 
-    return { displayInbox, displayDaily }
+    function displayWeekly() {
+        let list = projects.projectList[0].taskList;
+        const generalList = document.querySelector('#general');
+
+        while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
+
+        const weeklyTasks = list.filter(task => isThisWeek(toDate(task.duedate)));
+
+        weeklyTasks.forEach(task => displayAllTask(task, generalList));
+    }
+
+    return { displayNewInput, displayDaily, displayWeekly }
 })()
 
 const renderProject = (() => {

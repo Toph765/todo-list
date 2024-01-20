@@ -95,7 +95,7 @@ const NewTask = (() => {
 
         if (title === '' || description === '') return
         else {
-            renderTask.displayInbox();
+            renderTask.displayNewInput();
             reset();
             newTaskForm.setAttribute('hidden', '');
             newTaskBtn.removeAttribute('hidden');
