@@ -32,6 +32,15 @@ const renderTask = (() => {
         displayAllTask(items, generalList);
     }
 
+    function displayInbox() {
+        let list = projects.projectList[0].taskList;
+        const generalList = document.querySelector('#general');
+
+        while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
+
+        list.forEach(task => displayAllTask(task, generalList));
+    }
+
     function displayDaily() {
         let list = projects.projectList[0].taskList;
         const generalList = document.querySelector('#general');
@@ -54,7 +63,7 @@ const renderTask = (() => {
         weeklyTasks.forEach(task => displayAllTask(task, generalList));
     }
 
-    return { displayNewInput, displayDaily, displayWeekly }
+    return { displayNewInput, displayInbox, displayDaily, displayWeekly }
 })()
 
 const renderProject = (() => {

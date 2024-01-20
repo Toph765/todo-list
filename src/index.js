@@ -10,6 +10,8 @@ projects.submitProject();
 
 const todayTab = document.querySelector('#today');
 const weekTab = document.querySelector('#weekly');
+const inboxTab = document.querySelector('#inbox');
 
 todayTab.addEventListener('click',renderTask.displayDaily);
 weekTab.addEventListener('click', renderTask.displayWeekly);
+inboxTab.addEventListener('click', renderTask.displayInbox);
