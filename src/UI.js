@@ -63,7 +63,7 @@ const renderTask = (() => {
         weeklyTasks.forEach(task => displayAllTask(task, generalList));
     }
 
-    return { displayNewInput, displayInbox, displayDaily, displayWeekly }
+    return { displayNewInput, displayInbox, displayDaily, displayWeekly, displayAllTask }
 })()
 
 const renderProject = (() => {
@@ -77,7 +77,7 @@ const renderProject = (() => {
         const projectTitle = document.createElement('div');
         const projectTaskBtn = document.createElement('button');
 
-        container.classList.add('project');
+        container.classList.add(`project-${project.id}`);
         container.setAttribute('data-projectId', `${project.id}`);
         projectTaskBtn.setAttribute('data-projectId', `${project.id}`);
         projectTaskBtn.setAttribute('id', `project-${project.id}`);
@@ -85,7 +85,13 @@ const renderProject = (() => {
         projectTitle.textContent = `${project.title}`;
         projectTaskBtn.textContent = '+';
 
+        container.addEventListener('click', (e) => {
+            e.stopPropagation();
+            displayProjectTasks(project.id);
+        });
+
         projectTaskBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             console.log('project id', projects.grabProjectId(e));
             const newTaskForm = document.querySelector('#main-form');
 
@@ -98,6 +104,19 @@ const renderProject = (() => {
         projectDisplay.appendChild(container);
 
         return projectDisplay
+    }
+
+    function displayProjectTasks(id) {
+        let list = projects.projectList;
+        const generalList = document.querySelector('#general');
+
+        while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
+
+        let projectList = list.filter(task => task.id === id);
+        let projectTasks = projectList[0].taskList;
+        console.log(projectTasks);
+
+        projectTasks.forEach(task => renderTask.displayAllTask(task, generalList));
     }
 
     return { displayProject }
