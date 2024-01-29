@@ -1,5 +1,6 @@
 import { projects } from "./manageProject";
 import { isToday, toDate, isThisWeek } from "date-fns";
+import { AddtoList } from "./manageList";
 
 const renderTask = (() => {
     function displayAllTask(items, display) {
@@ -7,20 +8,56 @@ const renderTask = (() => {
 
         container.setAttribute('data-taskId', `${items.id}`)
 
+        container.classList.add('task');
+
         const title = document.createElement('div')
         const duedate = document.createElement('div');
         const description = document.createElement('div');
         const priority = document.createElement('div');
+        const deleteBtn = document.createElement('button');
 
         title.textContent = `Title: ${items.title}`;
         duedate.textContent = `Due Date: ${items.duedate}`;
         description.textContent = `Description: ${items.description}`;
         priority.textContent = `Priority: ${items.priority}`;
+        deleteBtn.textContent = 'delete';
 
-        container.append(title, duedate, description, priority);
+        deleteBtn.setAttribute('data-taskId', `${items.id}`);
+
+        deleteBtn.addEventListener('click', () => initDelBtn(items.id, items.project));
+
+        container.append(title, duedate, description, priority, deleteBtn);
         display.appendChild(container);
 
         return display;
+    }
+
+    function initDelBtn(id, projectId) {
+        let Alltask = AddtoList.removeTask(id);
+        const generalList = document.querySelector('#general');
+
+        projects.updateGeneralList(Alltask);
+        projects.updateProjectList(projectId);
+
+        while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
+        
+        updateDisplay(projectId);
+
+        console.log(projects.projectList);
+        console.log(projectId)
+    }
+
+    function grabTab() {
+        let currentTab = document.querySelector('#general').getAttribute('class');
+        return currentTab;
+    }
+
+    function updateDisplay(id) {
+        let tab = grabTab();
+        if (tab === 'inboxTab') displayInbox()
+        else if (tab === 'todayTab') displayDaily()
+        else if (tab === 'weekTab') displayWeekly()
+        else if (tab === `project-${id}` && id !== 0) renderProject.displayProjectTasks(id)
     }
 
     function displayNewInput() {
@@ -35,15 +72,18 @@ const renderTask = (() => {
     function displayInbox() {
         let list = projects.projectList[0].taskList;
         const generalList = document.querySelector('#general');
+        generalList.classList.replace(generalList.getAttribute('class'), 'inboxTab');
 
         while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
 
         list.forEach(task => displayAllTask(task, generalList));
+        console.log(list)
     }
 
     function displayDaily() {
         let list = projects.projectList[0].taskList;
         const generalList = document.querySelector('#general');
+        generalList.classList.replace(generalList.getAttribute('class'), 'todayTab');
 
         while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
         
@@ -55,6 +95,7 @@ const renderTask = (() => {
     function displayWeekly() {
         let list = projects.projectList[0].taskList;
         const generalList = document.querySelector('#general');
+        generalList.classList.replace(generalList.getAttribute('class'), 'weekTab');
 
         while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
 
@@ -109,17 +150,16 @@ const renderProject = (() => {
     function displayProjectTasks(id) {
         let list = projects.projectList;
         const generalList = document.querySelector('#general');
+        generalList.classList.replace(generalList.getAttribute('class'), `project-${id}`);
 
         while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
 
-        let projectList = list.filter(task => task.id === id);
-        let projectTasks = projectList[0].taskList;
-        console.log(projectTasks);
+        let projectTasks = projects.grabCurrentProjectTasks(id);
 
         projectTasks.forEach(task => renderTask.displayAllTask(task, generalList));
     }
 
-    return { displayProject }
+    return { displayProject, displayProjectTasks }
 })()
 
 export { renderTask, renderProject }
