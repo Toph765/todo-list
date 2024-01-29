@@ -52,7 +52,7 @@ const NewTask = (() => {
     }
 
     function createId() {
-        let list = AddtoList.TodoList;
+        let list = projects.projectList[0].taskList;
         let id;
 
         if (list.length === 0) {
