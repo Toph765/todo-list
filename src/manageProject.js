@@ -17,6 +17,25 @@ const projects = (() => {
 
     let currentProject = 0;
 
+    function updateGeneralList(newList) {
+        generalList.taskList = newList
+        console.log(generalList.taskList)
+        return generalList
+    }
+
+    function updateProjectList(id) {
+        let update = generalList.taskList.filter(task => task.project === id);
+        console.log(update)
+        if (id !== 0) {
+            return projectList.filter(project => project.id === id)[0].taskList = update
+        } else return;
+    }
+
+    function grabCurrentProjectTasks(id) {
+        console.log(projectList.filter(project => project.id === id)[0].taskList)
+        return projectList.filter(project => project.id === id)[0].taskList
+    }
+
     function grabCurrentProject() {
         return currentProject;
     }
@@ -81,7 +100,7 @@ const projects = (() => {
         return currentProject;
     }
 
-    return { submitProject, grabProjectId, grabCurrentProject, grabProjectList, projectList }
+    return { submitProject, grabProjectId, grabCurrentProject, grabProjectList, projectList, updateGeneralList,updateProjectList, grabCurrentProjectTasks }
 })()
 
 export { projects }
