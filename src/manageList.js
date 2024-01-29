@@ -6,7 +6,11 @@ const AddtoList = (() => {
         console.log(TodoList);
     }
 
-    return { addToList, TodoList };
+    function removeTask(id) {
+        return TodoList = TodoList.filter(task => id !== task.id);
+    }
+
+    return { addToList, TodoList, removeTask };
 })()
 
 
