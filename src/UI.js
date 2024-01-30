@@ -60,15 +60,6 @@ const renderTask = (() => {
         else if (tab === `project-${id}` && id !== 0) renderProject.displayProjectTasks(id)
     }
 
-    function displayNewInput() {
-        let list = projects.projectList[0].taskList;
-        let items = list[list.length - 1];
-
-        const generalList = document.querySelector('#general');
-        
-        displayAllTask(items, generalList);
-    }
-
     function displayInbox() {
         let list = projects.projectList[0].taskList;
         const generalList = document.querySelector('#general');
@@ -104,7 +95,7 @@ const renderTask = (() => {
         weeklyTasks.forEach(task => displayAllTask(task, generalList));
     }
 
-    return { displayNewInput, displayInbox, displayDaily, displayWeekly, displayAllTask }
+    return { displayInbox, displayDaily, displayWeekly, displayAllTask, updateDisplay }
 })()
 
 const renderProject = (() => {
