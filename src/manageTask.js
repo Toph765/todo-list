@@ -95,7 +95,10 @@ const NewTask = (() => {
 
         if (title === '' || description === '') return
         else {
-            renderTask.displayNewInput();
+            let taskList = projects.projectList[0].taskList
+            let projectId = taskList[taskList.length - 1].project; 
+            
+            renderTask.updateDisplay(projectId);
             reset();
             newTaskForm.setAttribute('hidden', '');
             newTaskBtn.removeAttribute('hidden');
