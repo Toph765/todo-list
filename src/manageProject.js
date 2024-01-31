@@ -36,6 +36,13 @@ const projects = (() => {
         return projectList.filter(project => project.id === id)[0].taskList
     }
 
+    function removeProject(id) {
+        console.log('before', projectList);
+        projectList = projectList.filter(project => project.id !== id);
+        console.log('after', projectList);
+        return projectList
+    }
+
     function grabCurrentProject() {
         return currentProject;
     }
@@ -86,7 +93,9 @@ const projects = (() => {
             createProject();
             if (projectTitle === '') return
             else {
-                renderProject.displayProject();
+                let project = projectList[projectList.length -1];
+
+                renderProject.displayProject(project);
                 reset();
             }
         })
@@ -100,7 +109,7 @@ const projects = (() => {
         return currentProject;
     }
 
-    return { submitProject, grabProjectId, grabCurrentProject, grabProjectList, projectList, updateGeneralList,updateProjectList, grabCurrentProjectTasks }
+    return { submitProject, grabProjectId, grabCurrentProject, grabProjectList, projectList, updateGeneralList,updateProjectList, grabCurrentProjectTasks, removeProject }
 })()
 
 export { projects }
