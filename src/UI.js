@@ -57,7 +57,7 @@ const renderTask = (() => {
         if (tab === 'inboxTab') displayInbox()
         else if (tab === 'todayTab') displayDaily()
         else if (tab === 'weekTab') displayWeekly()
-        else if (tab === `project-${id}` && id !== 0) renderProject.displayProjectTasks(id)
+        else if (tab === `${id}` && id !== 0) renderProject.displayProjectTasks(id)
     }
 
     function displayInbox() {
@@ -95,7 +95,7 @@ const renderTask = (() => {
         weeklyTasks.forEach(task => displayAllTask(task, generalList));
     }
 
-    return { displayInbox, displayDaily, displayWeekly, displayAllTask, updateDisplay }
+    return { displayInbox, displayDaily, displayWeekly, displayAllTask, updateDisplay, grabTab }
 })()
 
 const renderProject = (() => {
@@ -161,13 +161,14 @@ const renderProject = (() => {
             if (project.id > 0) displayProject(project);
         });
 
-        renderTask.updateDisplay(projectId);
+        if (parseInt(renderTask.grabTab(projectId)) === projectId) renderTask.displayInbox()
+        else renderTask.updateDisplay(projectId);
     }
 
     function displayProjectTasks(id) {
         let list = projects.projectList;
         const generalList = document.querySelector('#general');
-        generalList.classList.replace(generalList.getAttribute('class'), `project-${id}`);
+        generalList.classList.replace(generalList.getAttribute('class'), `${id}`);
 
         while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
 
