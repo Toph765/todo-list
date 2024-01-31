@@ -99,15 +99,13 @@ const renderTask = (() => {
 })()
 
 const renderProject = (() => {
-    function displayProject() {
-        let list = projects.projectList;
-        let project = list[list.length - 1];
-
+    function displayProject(project) {
         const projectDisplay = document.querySelector('.all-projects');
         const container = document.createElement('div');
 
         const projectTitle = document.createElement('div');
         const projectTaskBtn = document.createElement('button');
+        const projectDelBtn = document.createElement('button');
 
         container.classList.add(`project-${project.id}`);
         container.setAttribute('data-projectId', `${project.id}`);
@@ -116,6 +114,7 @@ const renderProject = (() => {
 
         projectTitle.textContent = `${project.title}`;
         projectTaskBtn.textContent = '+';
+        projectDelBtn.textContent = 'delete';
 
         container.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -132,10 +131,37 @@ const renderProject = (() => {
             e.preventDefault();
         })
 
-        container.append(projectTitle, projectTaskBtn);
+        projectDelBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            initDelProjBtn(project.id);
+        })
+
+        container.append(projectTitle, projectTaskBtn, projectDelBtn);
         projectDisplay.appendChild(container);
 
         return projectDisplay
+    }
+
+    function initDelProjBtn(projectId) {
+        projects.removeProject(projectId);
+
+        let updatedProjects = projects.grabProjectList();
+        let taskList = AddtoList.TodoList;
+        let updatedTaskList = taskList.filter(task => task.project === projectId);
+
+        updatedTaskList.forEach(task => {
+            let newList = AddtoList.removeTask(task.id);
+            projects.updateGeneralList(newList);
+        });
+
+        let projectsDisplay = document.querySelector('.all-projects');
+        while (projectsDisplay.lastElementChild) projectsDisplay.removeChild(projectsDisplay.lastElementChild);
+
+        updatedProjects.forEach(project => {
+            if (project.id > 0) displayProject(project);
+        });
+
+        renderTask.updateDisplay(projectId);
     }
 
     function displayProjectTasks(id) {
