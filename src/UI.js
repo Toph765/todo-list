@@ -1,6 +1,7 @@
 import { projects } from "./manageProject";
 import { isToday, toDate, isThisWeek } from "date-fns";
 import { AddtoList } from "./manageList";
+import { storeLocal } from "./storage";
 
 const renderTask = (() => {
     function displayAllTask(items, display) {
@@ -37,7 +38,8 @@ const renderTask = (() => {
         const generalList = document.querySelector('#general');
 
         projects.updateGeneralList(Alltask);
-        projects.updateProjectList(projectId);
+        projects.updateProject(projectId);
+        storeLocal.storeProjects();
 
         while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
         
@@ -61,18 +63,19 @@ const renderTask = (() => {
     }
 
     function displayInbox() {
-        let list = projects.projectList[0].taskList;
+        let list = projects.grabProjectList()[0].taskList;
         const generalList = document.querySelector('#general');
         generalList.classList.replace(generalList.getAttribute('class'), 'inboxTab');
 
         while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
-
-        list.forEach(task => displayAllTask(task, generalList));
         console.log(list)
+        list.forEach(task => displayAllTask(task, generalList));
+        console.log(projects.projectList)
+        
     }
 
     function displayDaily() {
-        let list = projects.projectList[0].taskList;
+        let list = projects.grabProjectList()[0].taskList;
         const generalList = document.querySelector('#general');
         generalList.classList.replace(generalList.getAttribute('class'), 'todayTab');
 
@@ -84,7 +87,7 @@ const renderTask = (() => {
     }
 
     function displayWeekly() {
-        let list = projects.projectList[0].taskList;
+        let list = projects.grabProjectList()[0].taskList;
         const generalList = document.querySelector('#general');
         generalList.classList.replace(generalList.getAttribute('class'), 'weekTab');
 
@@ -163,6 +166,8 @@ const renderProject = (() => {
 
         if (parseInt(renderTask.grabTab(projectId)) === projectId) renderTask.displayInbox()
         else renderTask.updateDisplay(projectId);
+
+        storeLocal.storeProjects();
     }
 
     function displayProjectTasks(id) {
