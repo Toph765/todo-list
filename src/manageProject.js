@@ -1,6 +1,6 @@
 import { renderProject } from "./UI";
 import { AddtoList } from "./manageList";
-import { NewTask } from "./manageTask";
+import { storeLocal } from "./storage";
 
 const newProject = (title, taskList, id) => {
     return { title, taskList, id };
@@ -23,7 +23,7 @@ const projects = (() => {
         return generalList
     }
 
-    function updateProjectList(id) {
+    function updateProject(id) {
         let update = generalList.taskList.filter(task => task.project === id);
         console.log(update)
         if (id !== 0) {
@@ -61,6 +61,7 @@ const projects = (() => {
             const project = newProject(projectTitle, projectTasks, projectId);
             console.log(project);
             addToProjectList(project);
+            storeLocal.storeProjects();
         }
     }
 
@@ -109,7 +110,16 @@ const projects = (() => {
         return currentProject;
     }
 
-    return { submitProject, grabProjectId, grabCurrentProject, grabProjectList, projectList, updateGeneralList,updateProjectList, grabCurrentProjectTasks, removeProject }
+    return { submitProject,
+             grabProjectId,
+             grabCurrentProject, 
+             grabProjectList, 
+             projectList, 
+             updateGeneralList,
+             updateProject, 
+             grabCurrentProjectTasks, 
+             removeProject,
+             addToProjectList }
 })()
 
 export { projects }
