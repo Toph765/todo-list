@@ -2,6 +2,7 @@ import { AddtoList } from "./manageList";
 import { renderTask } from "./UI";
 import { projects } from "./manageProject";
 import { toDate, isThisWeek, isToday } from "date-fns";
+import { storeLocal } from "./storage";
 
 
 const createTask = (id, title, description, duedate, priority, project) => {
@@ -52,7 +53,7 @@ const NewTask = (() => {
     }
 
     function createId() {
-        let list = projects.projectList[0].taskList;
+        let list = projects.grabProjectList()[0].taskList;
         let id;
 
         if (list.length === 0) {
@@ -92,10 +93,11 @@ const NewTask = (() => {
         const newTaskBtn = document.querySelector('#newTask');
         
         createNewTask();
+        storeLocal.storeProjects();
 
         if (title === '' || description === '') return
         else {
-            let taskList = projects.projectList[0].taskList
+            let taskList = projects.grabProjectList()[0].taskList
             let projectId = taskList[taskList.length - 1].project; 
             
             renderTask.updateDisplay(projectId);
