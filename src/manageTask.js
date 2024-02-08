@@ -88,23 +88,60 @@ const NewTask = (() => {
             });
     }
 
+    function editTask(id) {
+        let taskTitle = document.getElementById('title').value;
+        let taskDescription = document.getElementById('description').value;
+        let taskDate = document.getElementById('date').value;
+        let taskPriority = document.getElementById('priority').value;
+
+        const taskList = projects.grabProjectList()[0].taskList;
+        const editedTask = taskList.filter(task => id === task.id)[0];
+
+        editedTask.title = taskTitle;
+        editedTask.description = taskDescription;
+        editedTask.duedate = taskDate;
+        editedTask.priority = taskPriority;
+
+        title = taskTitle;
+        description = taskDescription;
+
+        for (let i = 0; i < taskList.length; i++) {
+            if (taskList[i].id === id) {
+                taskList[i] = editedTask;
+                projects.updateProject(taskList[i].project);
+                console.log(projects.grabProjectList());
+            }
+        }
+    }
+
     function submitTask() {
         const newTaskForm = document.querySelector('#main-form');
         const newTaskBtn = document.querySelector('#newTask');
+        const taskId = parseInt(newTaskForm.getAttribute('data-taskId'));
         
-        createNewTask();
+        if (newTaskForm.getAttribute('class') === 'edit-mode') {
+            console.log('werk')
+            editTask(taskId);
+        } else {createNewTask()};
         storeLocal.storeProjects();
 
         if (title === '' || description === '') return
-        else {
-            let taskList = projects.grabProjectList()[0].taskList
-            let projectId = taskList[taskList.length - 1].project; 
-            
-            renderTask.updateDisplay(projectId);
-            reset();
-            newTaskForm.setAttribute('hidden', '');
-            newTaskBtn.removeAttribute('hidden');
+
+        let projectId;
+        let taskList = projects.grabProjectList()[0].taskList
+
+        if (newTaskForm.getAttribute('class') === 'edit-mode') {
+            projectId = taskList.filter(task => taskId === task.id)[0].project;
+            newTaskForm.classList.remove('edit-mode');
+        } else {
+            projectId = taskList[taskList.length - 1].project; 
         }
+            
+        renderTask.updateDisplay(projectId);
+        reset();
+        newTaskForm.setAttribute('hidden', '');
+        newTaskBtn.removeAttribute('hidden');
+        
     }
 
     function cancelTask() {
