@@ -16,21 +16,49 @@ const renderTask = (() => {
         const description = document.createElement('div');
         const priority = document.createElement('div');
         const deleteBtn = document.createElement('button');
+        const editBtn = document.createElement('button');
 
         title.textContent = `Title: ${items.title}`;
         duedate.textContent = `Due Date: ${items.duedate}`;
         description.textContent = `Description: ${items.description}`;
         priority.textContent = `Priority: ${items.priority}`;
         deleteBtn.textContent = 'delete';
+        editBtn.textContent = 'edit';
 
         deleteBtn.setAttribute('data-taskId', `${items.id}`);
 
         deleteBtn.addEventListener('click', () => initDelBtn(items.id, items.project));
 
-        container.append(title, duedate, description, priority, deleteBtn);
+        editBtn.addEventListener('click', () => {initEditBtn(items)});
+
+        container.append(title, duedate, description, priority, deleteBtn, editBtn);
         display.appendChild(container);
 
         return display;
+    }
+
+    function initEditBtn(task) {
+        const taskForm = document.querySelector('#main-form');
+
+        taskForm.classList.add('edit-mode');
+        taskForm.setAttribute('data-taskId', `${task.id}`);
+
+        let title = document.getElementById('title');
+        let description = document.getElementById('description');
+        let date = document.getElementById('date');
+        let priority = document.getElementById('priority');
+
+        const taskTitle = task.title;
+        const taskDescription = task.description;
+        const taskDate = task.duedate;
+        const taskPriority = task.priority;
+
+        title.value = taskTitle;
+        description.value = taskDescription;
+        date.value = taskDate;
+        priority.value = taskPriority;
+
+        taskForm.removeAttribute('hidden');
     }
 
     function initDelBtn(id, projectId) {
