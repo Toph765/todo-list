@@ -17,6 +17,8 @@ const renderTask = (() => {
         const priority = document.createElement('div');
         const deleteBtn = document.createElement('button');
         const editBtn = document.createElement('button');
+        const checkbox = document.createElement('input');
+        const label = document.createElement('label');
 
         title.textContent = `Title: ${items.title}`;
         duedate.textContent = `Due Date: ${items.duedate}`;
@@ -24,17 +26,51 @@ const renderTask = (() => {
         priority.textContent = `Priority: ${items.priority}`;
         deleteBtn.textContent = 'delete';
         editBtn.textContent = 'edit';
+        label.textContent = 'Done?';
 
+        checkbox.setAttribute('type', 'checkbox');
+        checkbox.setAttribute('id', `status-${items.id}`);
+        checkbox.setAttribute('name', 'status');
+        checkbox.setAttribute('value', 'off');
+        label.setAttribute('for', `status-${items.id}`);
         deleteBtn.setAttribute('data-taskId', `${items.id}`);
+        
+
+        checkbox.addEventListener('click', () => {
+            if (checkbox.value === 'off') {initCheckboxOn(items, checkbox, label, editBtn, container)}
+            else {initCheckboxOff(items, checkbox, label, editBtn, container)};
+        
+            storeLocal.storeProjects();
+        });
 
         deleteBtn.addEventListener('click', () => initDelBtn(items.id, items.project));
-
         editBtn.addEventListener('click', () => {initEditBtn(items)});
 
-        container.append(title, duedate, description, priority, deleteBtn, editBtn);
+        if (items.status === 'finished') {
+            checkbox.setAttribute('checked','');
+            initCheckboxOn(items, checkbox, label, editBtn, container);
+        };
+
+        container.append(title, duedate, description, priority, deleteBtn, editBtn, label, checkbox);
         display.appendChild(container);
 
         return display;
+    }
+
+    function initCheckboxOn(items, checkbox, label, editBtn, container) {
+            label.textContent = 'Done!';
+            checkbox.value = 'on';
+            editBtn.setAttribute('disabled', '');
+            items.status = 'finished';
+            container.classList.add('finished');
+    }
+
+    function initCheckboxOff(items, checkbox, label, editBtn, container) {
+        label.textContent = 'Done?';
+        checkbox.value = 'off';
+        editBtn.removeAttribute('disabled');
+        items.status = 'unfinished';
+        container.classList.remove('finished');
     }
 
     function initEditBtn(task) {
