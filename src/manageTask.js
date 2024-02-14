@@ -5,9 +5,9 @@ import { toDate, isThisWeek, isToday } from "date-fns";
 import { storeLocal } from "./storage";
 
 
-const createTask = (id, title, description, duedate, priority, project) => {
+const createTask = (id, title, description, duedate, priority, project, status) => {
     return {
-        id, title, description, duedate, priority, project
+        id, title, description, duedate, priority, project, status
     }
 }
 
@@ -26,6 +26,7 @@ const NewTask = (() => {
         let priority = document.getElementById('priority').value;
         let id = createId();
         let projectId = projects.grabCurrentProject();
+        let status = 'unfinished'
 
         console.log(isThisWeek(toDate(duedate)))
         console.log(isToday(toDate(duedate)))
@@ -34,7 +35,7 @@ const NewTask = (() => {
             description === '' ||
             duedate === '') return
         else {
-            const task = createTask(id, title, description, duedate, priority, projectId);
+            const task = createTask(id, title, description, duedate, priority, projectId, status);
             console.log(task);
 
             if (projectId === 0) {
