@@ -5,22 +5,22 @@ import { toDate, isThisWeek, isToday } from "date-fns";
 import { storeLocal } from "./storage";
 
 
-const createTask = (id, title, description, duedate, priority, project, status) => {
+const createTask = (id, title, details, duedate, priority, project, status) => {
     return {
-        id, title, description, duedate, priority, project, status
+        id, title, details, duedate, priority, project, status
     }
 }
 
 const NewTask = (() => {
 
     let title;
-    let description;
+    let details;
 
     function createNewTask() {
         const projectList = projects.grabProjectList();
 
         title = document.getElementById('title').value;
-        description = document.getElementById('description').value;
+        details = document.getElementById('details').value;
 
         let duedate = document.getElementById('date').value;
         let priority = document.getElementById('priority').value;
@@ -32,10 +32,10 @@ const NewTask = (() => {
         console.log(isToday(toDate(duedate)))
 
         if (title === '' ||
-            description === '' ||
+            details === '' ||
             duedate === '') return
         else {
-            const task = createTask(id, title, description, duedate, priority, projectId, status);
+            const task = createTask(id, title, details, duedate, priority, projectId, status);
             console.log(task);
 
             if (projectId === 0) {
@@ -69,9 +69,9 @@ const NewTask = (() => {
         titleValue.value = '';
         title = '';
 
-        let descriptionValue = document.getElementById('description');
-        descriptionValue.value = '';
-        description = '';
+        let detailsValue = document.getElementById('details');
+        detailsValue.value = '';
+        details = '';
 
         let duedate = document.getElementById('date');
         duedate.value = '';
@@ -91,7 +91,7 @@ const NewTask = (() => {
 
     function editTask(id) {
         let taskTitle = document.getElementById('title').value;
-        let taskDescription = document.getElementById('description').value;
+        let taskDetails = document.getElementById('details').value;
         let taskDate = document.getElementById('date').value;
         let taskPriority = document.getElementById('priority').value;
 
@@ -99,12 +99,12 @@ const NewTask = (() => {
         const editedTask = taskList.filter(task => id === task.id)[0];
 
         editedTask.title = taskTitle;
-        editedTask.description = taskDescription;
+        editedTask.details = taskDetails;
         editedTask.duedate = taskDate;
         editedTask.priority = taskPriority;
 
         title = taskTitle;
-        description = taskDescription;
+        details = taskDetails;
 
         for (let i = 0; i < taskList.length; i++) {
             if (taskList[i].id === id) {
@@ -126,7 +126,7 @@ const NewTask = (() => {
         } else {createNewTask()};
         storeLocal.storeProjects();
 
-        if (title === '' || description === '') return
+        if (title === '' || details === '') return
 
         let projectId;
         let taskList = projects.grabProjectList()[0].taskList

@@ -13,7 +13,7 @@ const renderTask = (() => {
 
         const title = document.createElement('div')
         const duedate = document.createElement('div');
-        const description = document.createElement('div');
+        const details = document.createElement('div');
         const priority = document.createElement('div');
         const deleteBtn = document.createElement('button');
         const editBtn = document.createElement('button');
@@ -22,7 +22,7 @@ const renderTask = (() => {
 
         title.textContent = `Title: ${items.title}`;
         duedate.textContent = `Due Date: ${items.duedate}`;
-        description.textContent = `Description: ${items.description}`;
+        details.textContent = `Details: ${items.details}`;
         priority.textContent = `Priority: ${items.priority}`;
         deleteBtn.textContent = 'delete';
         editBtn.textContent = 'edit';
@@ -51,7 +51,7 @@ const renderTask = (() => {
             initCheckboxOn(items, checkbox, label, editBtn, container);
         };
 
-        container.append(title, duedate, description, priority, deleteBtn, editBtn, label, checkbox);
+        container.append(title, duedate, details, priority, deleteBtn, editBtn, label, checkbox);
         display.appendChild(container);
 
         return display;
@@ -80,17 +80,17 @@ const renderTask = (() => {
         taskForm.setAttribute('data-taskId', `${task.id}`);
 
         let title = document.getElementById('title');
-        let description = document.getElementById('description');
+        let details = document.getElementById('details');
         let date = document.getElementById('date');
         let priority = document.getElementById('priority');
 
         const taskTitle = task.title;
-        const taskDescription = task.description;
+        const taskDetails = task.details;
         const taskDate = task.duedate;
         const taskPriority = task.priority;
 
         title.value = taskTitle;
-        description.value = taskDescription;
+        details.value = taskDetails;
         date.value = taskDate;
         priority.value = taskPriority;
 
