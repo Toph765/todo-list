@@ -31,26 +31,29 @@ const NewTask = (() => {
         console.log(isThisWeek(toDate(duedate)))
         console.log(isToday(toDate(duedate)))
 
-        if (title === '' ||
-            details === '' ||
-            duedate === '') return
-        else {
-            const task = createTask(id, title, details, duedate, priority, projectId, status);
-            console.log(task);
+        if (title === '' || details === '' || duedate === '') return
 
-            if (projectId === 0) {
-                projectList[0].taskList.push(task);
+        const task = createTask(id, title, details, duedate, priority, projectId, status);
+        console.log(task);
+
+        addToTasklist(projectId, task);       
+    }
+
+    function addToTasklist(projectId, task) {
+        const projectList = projects.grabProjectList();
+
+        if (projectId === 0) {
+            projectList[0].taskList.push(task);
+            console.log(projectList)
+        }
+
+        for (let i = 1; i < projectList.length; i++) {
+            if (projectList[i].id === projectId) {
+                AddtoList.addToList(task);
+                projectList[i].taskList.push(task);
                 console.log(projectList)
             }
-
-            for (let i = 1; i < projectList.length; i++) {
-                if (projectList[i].id === projectId) {
-                    AddtoList.addToList(task);
-                    projectList[i].taskList.push(task);
-                    console.log(projectList)
-                }
-            }
-        } 
+        }
     }
 
     function createId() {
@@ -170,7 +173,7 @@ const NewTask = (() => {
         })
     }
 
-    return { createNewTask, initSubmitBtn, cancelTask, openTaskCreator }
+    return { createNewTask, initSubmitBtn, cancelTask, openTaskCreator, addToTasklist }
 })();
 
 export { NewTask }
