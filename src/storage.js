@@ -1,6 +1,6 @@
 import { projects } from "./manageProject";
 import { renderProject, renderTask } from "./UI";
-import { AddtoList } from "./manageList";
+import { NewTask } from "./manageTask";
 
 const storeLocal = (() => {
     function stringify(item) {
@@ -16,17 +16,20 @@ const storeLocal = (() => {
     function loadStorage() {
         const newList = JSON.parse(localStorage.getItem('project'));
 
-        let genList = newList[0];
-        genList.taskList.forEach(task => {
-            AddtoList.addToList(task);
-            renderTask.updateDisplay(task.project)
-        });
-
         let loadedProjects = newList.filter(project => project.id !== 0);
         loadedProjects.forEach(project => {
+            project.taskList = [];
             projects.addToProjectList(project);
             renderProject.displayProject(project);
         });
+
+        let genList = newList[0];
+
+        genList.taskList.forEach(task => {
+            NewTask.addToTasklist(task.project, task);
+            renderTask.updateDisplay(task.project);
+        })
+        
     }
 
     return { storeProjects,
