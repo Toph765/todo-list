@@ -175,9 +175,11 @@ const renderProject = (() => {
         const projectDelBtn = document.createElement('button');
 
         container.classList.add(`project-${project.id}`);
+        container.classList.add('container-project');
         container.setAttribute('data-projectId', `${project.id}`);
         projectTaskBtn.setAttribute('data-projectId', `${project.id}`);
         projectTaskBtn.setAttribute('id', `project-${project.id}`);
+        projectDelBtn.classList.add('del-project');
 
         projectTitle.textContent = `${project.title}`;
         projectTaskBtn.textContent = '+';
