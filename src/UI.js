@@ -128,7 +128,9 @@ const renderTask = (() => {
 
     function displayInbox() {
         let list = projects.grabProjectList()[0].taskList;
+        const newTaskBtn = document.querySelector('#newTask');
         const generalList = document.querySelector('#general');
+        newTaskBtn.setAttribute('data-projectId', '0');
         generalList.classList.replace(generalList.getAttribute('class'), 'inboxTab');
 
         while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
@@ -140,7 +142,9 @@ const renderTask = (() => {
 
     function displayDaily() {
         let list = projects.grabProjectList()[0].taskList;
+        const newTaskBtn = document.querySelector('#newTask');
         const generalList = document.querySelector('#general');
+        newTaskBtn.setAttribute('data-projectId', '0');
         generalList.classList.replace(generalList.getAttribute('class'), 'todayTab');
 
         while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
@@ -152,7 +156,9 @@ const renderTask = (() => {
 
     function displayWeekly() {
         let list = projects.grabProjectList()[0].taskList;
+        const newTaskBtn = document.querySelector('#newTask');
         const generalList = document.querySelector('#general');
+        newTaskBtn.setAttribute('data-projectId', '0');
         generalList.classList.replace(generalList.getAttribute('class'), 'weekTab');
 
         while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
@@ -167,45 +173,34 @@ const renderTask = (() => {
 
 const renderProject = (() => {
     function displayProject(project) {
+        const newTaskBtn = document.querySelector('#newTask');
         const projectDisplay = document.querySelector('.all-projects');
         const container = document.createElement('div');
 
         const projectTitle = document.createElement('div');
-        const projectTaskBtn = document.createElement('button');
         const projectDelBtn = document.createElement('button');
 
         container.classList.add(`project-${project.id}`);
         container.classList.add('container-project');
         container.setAttribute('data-projectId', `${project.id}`);
-        projectTaskBtn.setAttribute('data-projectId', `${project.id}`);
-        projectTaskBtn.setAttribute('id', `project-${project.id}`);
         projectDelBtn.classList.add('del-project');
 
         projectTitle.textContent = `${project.title}`;
-        projectTaskBtn.textContent = '+';
         projectDelBtn.textContent = 'delete';
 
         container.addEventListener('click', (e) => {
             e.stopPropagation();
+
+            newTaskBtn.setAttribute('data-projectId', `${project.id}`);
             displayProjectTasks(project.id);
         });
-
-        projectTaskBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            console.log('project id', projects.grabProjectId(e));
-            const newTaskForm = document.querySelector('#main-form');
-
-            projects.grabProjectId(e);
-            newTaskForm.removeAttribute('hidden');
-            e.preventDefault();
-        })
 
         projectDelBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             initDelProjBtn(project.id);
         })
 
-        container.append(projectTitle, projectTaskBtn, projectDelBtn);
+        container.append(projectTitle, projectDelBtn);
         projectDisplay.appendChild(container);
 
         return projectDisplay
