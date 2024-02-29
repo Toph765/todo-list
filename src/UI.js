@@ -85,6 +85,7 @@ const renderTask = (() => {
 
     function initCheckboxOn(items, checkbox, label, editBtn, editImg, container) {
         label.textContent = 'Done!';
+        label.setAttribute('style', 'font-weight: bold;');
         checkbox.value = 'on';
         editBtn.setAttribute('disabled', '');
         editImg.setAttribute('style', 'opacity: 0.5;')
@@ -94,6 +95,7 @@ const renderTask = (() => {
 
     function initCheckboxOff(items, checkbox, label, editBtn, editImg, container) {
         label.textContent = 'Done?';
+        label.removeAttribute('style');
         checkbox.value = 'off';
         editBtn.removeAttribute('disabled');
         editImg.removeAttribute('style');
@@ -158,44 +160,67 @@ const renderTask = (() => {
 
     function displayInbox() {
         let list = projects.grabProjectList()[0].taskList;
+        const emptyPhrase = document.querySelector('.empty');
         const newTaskBtn = document.querySelector('#newTask');
         const generalList = document.querySelector('#general');
         newTaskBtn.setAttribute('data-projectId', '0');
         generalList.classList.replace(generalList.getAttribute('class'), 'inboxTab');
 
-        while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
-        console.log(list)
-        list.forEach(task => displayAllTask(task, generalList));
-        console.log(projects.projectList)
+        if (list.length === 0) {
+            emptyPhrase.removeAttribute('hidden');
+        } else {
+            emptyPhrase.setAttribute('hidden', '');
+
+            while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
+            console.log(list)
+            list.forEach(task => displayAllTask(task, generalList));
+            console.log(projects.projectList)
+        }
+
+        
         
     }
 
     function displayDaily() {
         let list = projects.grabProjectList()[0].taskList;
+        const emptyPhrase = document.querySelector('.empty');
         const newTaskBtn = document.querySelector('#newTask');
         const generalList = document.querySelector('#general');
         newTaskBtn.setAttribute('data-projectId', '0');
         generalList.classList.replace(generalList.getAttribute('class'), 'todayTab');
 
-        while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
-        
-        const dailyTasks = list.filter(task => isToday(toDate(task.duedate)));
-        
-        dailyTasks.forEach(task => displayAllTask(task, generalList));
+        if (list.length === 0) {
+            emptyPhrase.removeAttribute('hidden');
+        } else {
+            emptyPhrase.setAttribute('hidden', '');
+
+            while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
+            
+            const dailyTasks = list.filter(task => isToday(toDate(task.duedate)));
+            
+            dailyTasks.forEach(task => displayAllTask(task, generalList));
+        }
     }
 
     function displayWeekly() {
         let list = projects.grabProjectList()[0].taskList;
+        const emptyPhrase = document.querySelector('.empty');
         const newTaskBtn = document.querySelector('#newTask');
         const generalList = document.querySelector('#general');
         newTaskBtn.setAttribute('data-projectId', '0');
         generalList.classList.replace(generalList.getAttribute('class'), 'weekTab');
 
-        while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
+        if (list.length === 0) {
+            emptyPhrase.removeAttribute('hidden');
+        } else {
+            emptyPhrase.setAttribute('hidden' ,'');
 
-        const weeklyTasks = list.filter(task => isThisWeek(toDate(task.duedate)));
+            while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
 
-        weeklyTasks.forEach(task => displayAllTask(task, generalList));
+            const weeklyTasks = list.filter(task => isThisWeek(toDate(task.duedate)));
+
+            weeklyTasks.forEach(task => displayAllTask(task, generalList));
+        }
     }
 
     return { displayInbox, displayDaily, displayWeekly, displayAllTask, updateDisplay, grabTab }
@@ -262,15 +287,21 @@ const renderProject = (() => {
     }
 
     function displayProjectTasks(id) {
-        let list = projects.projectList;
+        /* let list = projects.projectList; */
+        const emptyPhrase = document.querySelector('.empty');
         const generalList = document.querySelector('#general');
         generalList.classList.replace(generalList.getAttribute('class'), `${id}`);
 
         while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
-
+        
         let projectTasks = projects.grabCurrentProjectTasks(id);
 
-        projectTasks.forEach(task => renderTask.displayAllTask(task, generalList));
+        if (projectTasks.length === 0) {
+            emptyPhrase.removeAttribute('hidden');
+        } else {
+            emptyPhrase.setAttribute('hidden', '');
+            projectTasks.forEach(task => renderTask.displayAllTask(task, generalList));
+        }
     }
 
     return { displayProject, displayProjectTasks }
