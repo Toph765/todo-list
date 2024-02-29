@@ -120,10 +120,11 @@ const NewTask = (() => {
 
     function submitTask() {
         const newTaskForm = document.querySelector('#main-form');
-        const newTaskBtn = document.querySelector('#newTask');
+        /* const newTaskBtn = document.querySelector('#newTask'); */
         const taskId = parseInt(newTaskForm.getAttribute('data-taskId'));
+        const dialog = document.querySelector('.dialog');
         
-        if (newTaskForm.getAttribute('class') === 'edit-mode') {
+        if (newTaskForm.classList.contains('edit-mode')) {
             console.log('werk')
             editTask(taskId);
         } else {createNewTask()};
@@ -134,7 +135,7 @@ const NewTask = (() => {
         let projectId;
         let taskList = projects.grabProjectList()[0].taskList
 
-        if (newTaskForm.getAttribute('class') === 'edit-mode') {
+        if (newTaskForm.classList.contains('edit-mode')) {
             projectId = taskList.filter(task => taskId === task.id)[0].project;
             newTaskForm.classList.remove('edit-mode');
         } else {
@@ -143,32 +144,37 @@ const NewTask = (() => {
             
         renderTask.updateDisplay(projectId);
         reset();
-        newTaskForm.setAttribute('hidden', '');
-        newTaskBtn.removeAttribute('hidden');
+        dialog.close();
+        /* newTaskForm.setAttribute('hidden', '');
+        newTaskBtn.removeAttribute('hidden'); */
         
     }
 
     function cancelTask() {
         const cancelBtn = document.querySelector('#cancel');
-        const newTaskForm = document.querySelector('#main-form');
-        const newTaskBtn = document.querySelector('#newTask');
+        const dialog = document.querySelector('.dialog');
+        /* const newTaskForm = document.querySelector('#main-form');
+        const newTaskBtn = document.querySelector('#newTask'); */
 
         cancelBtn.addEventListener('click', (e) => {
             reset();
-            newTaskForm.setAttribute('hidden', '');
-            newTaskBtn.removeAttribute('hidden');
+            dialog.close();
+            /* newTaskForm.setAttribute('hidden', '');
+            newTaskBtn.removeAttribute('hidden'); */
             e.preventDefault();
         })
     }
 
     function openTaskCreator() {
         const newTaskBtn = document.querySelector('#newTask');
-        const newTaskForm = document.querySelector('#main-form');
+        const dialog = document.querySelector('.dialog');
+        /* const newTaskForm = document.querySelector('#main-form'); */
 
         newTaskBtn.addEventListener('click', (e) => {
             projects.grabProjectId(e);
-            newTaskForm.removeAttribute('hidden');
-            newTaskBtn.setAttribute('hidden', '');
+            dialog.showModal();
+            /* newTaskForm.removeAttribute('hidden'); */
+            /* newTaskBtn.setAttribute('hidden', ''); */
             e.preventDefault();
         })
     }
