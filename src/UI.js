@@ -15,18 +15,34 @@ const renderTask = (() => {
         const duedate = document.createElement('div');
         const details = document.createElement('div');
         const priority = document.createElement('div');
+        const statusCont = document.createElement('div');
         const deleteBtn = document.createElement('button');
         const editBtn = document.createElement('button');
         const checkbox = document.createElement('input');
         const label = document.createElement('label');
+        const taskBtns = document.createElement('div');
+        const delImg = document.createElement('img');
+        const editImg = document.createElement('img');
+        const taskFunc = document.createElement('div');
 
-        title.textContent = `Title: ${items.title}`;
-        duedate.textContent = `Due Date: ${items.duedate}`;
-        details.textContent = `Details: ${items.details}`;
-        priority.textContent = `Priority: ${items.priority}`;
-        deleteBtn.textContent = 'delete';
-        editBtn.textContent = 'edit';
+        title.textContent = `${items.title}`;
+        duedate.textContent = `${items.duedate}`;
+        details.textContent = `${items.details}`;
         label.textContent = 'Done?';
+
+        title.classList.add('title');
+        duedate.classList.add('duedate');
+        details.classList.add('details');
+        statusCont.classList.add('checkbox');
+        label.classList.add('label');
+        priority.classList.add(`${items.priority}`);
+        priority.classList.add('priority');
+        taskBtns.classList.add('taskBtns');
+        deleteBtn.classList.add('delete');
+        editBtn.classList.add('edit');
+        delImg.classList.add('icon');
+        editImg.classList.add('icon');
+        taskFunc.classList.add('taskFunc');
 
         checkbox.setAttribute('type', 'checkbox');
         checkbox.setAttribute('id', `status-${items.id}`);
@@ -34,11 +50,16 @@ const renderTask = (() => {
         checkbox.setAttribute('value', 'off');
         label.setAttribute('for', `status-${items.id}`);
         deleteBtn.setAttribute('data-taskId', `${items.id}`);
-        
+
+        delImg.setAttribute('src', 'img/trash-can-outline.svg');
+        delImg.setAttribute('alt', 'delete icon');
+        editImg.setAttribute('src', 'img/text-box-edit-outline.svg');
+        editImg.setAttribute('alt', 'edit icon');
+
 
         checkbox.addEventListener('click', () => {
-            if (checkbox.value === 'off') {initCheckboxOn(items, checkbox, label, editBtn, container)}
-            else {initCheckboxOff(items, checkbox, label, editBtn, container)};
+            if (checkbox.value === 'off') {initCheckboxOn(items, checkbox, label, editBtn, editImg, container)}
+            else {initCheckboxOff(items, checkbox, label, editBtn, editImg, container)};
         
             storeLocal.storeProjects();
         });
@@ -48,33 +69,41 @@ const renderTask = (() => {
 
         if (items.status === 'finished') {
             checkbox.setAttribute('checked','');
-            initCheckboxOn(items, checkbox, label, editBtn, container);
+            initCheckboxOn(items, checkbox, label, editBtn, editImg, container);
         };
 
-        container.append(title, duedate, details, priority, deleteBtn, editBtn, label, checkbox);
+        deleteBtn.append(delImg);
+        editBtn.append(editImg);
+        statusCont.append(label, checkbox);
+        taskBtns.append(deleteBtn, editBtn);
+        taskFunc.append(taskBtns, statusCont);
+        container.append(priority, title, duedate, details, taskFunc);
         display.appendChild(container);
 
         return display;
     }
 
-    function initCheckboxOn(items, checkbox, label, editBtn, container) {
-            label.textContent = 'Done!';
-            checkbox.value = 'on';
-            editBtn.setAttribute('disabled', '');
-            items.status = 'finished';
-            container.classList.add('finished');
+    function initCheckboxOn(items, checkbox, label, editBtn, editImg, container) {
+        label.textContent = 'Done!';
+        checkbox.value = 'on';
+        editBtn.setAttribute('disabled', '');
+        editImg.setAttribute('style', 'opacity: 0.5;')
+        items.status = 'finished';
+        container.classList.add('finished');
     }
 
-    function initCheckboxOff(items, checkbox, label, editBtn, container) {
+    function initCheckboxOff(items, checkbox, label, editBtn, editImg, container) {
         label.textContent = 'Done?';
         checkbox.value = 'off';
         editBtn.removeAttribute('disabled');
+        editImg.removeAttribute('style');
         items.status = 'unfinished';
         container.classList.remove('finished');
     }
 
     function initEditBtn(task) {
         const taskForm = document.querySelector('#main-form');
+        const dialog = document.querySelector('.dialog');
 
         taskForm.classList.add('edit-mode');
         taskForm.setAttribute('data-taskId', `${task.id}`);
@@ -94,7 +123,8 @@ const renderTask = (() => {
         date.value = taskDate;
         priority.value = taskPriority;
 
-        taskForm.removeAttribute('hidden');
+        /* taskForm.removeAttribute('hidden'); */
+        dialog.showModal();
     }
 
     function initDelBtn(id, projectId) {
