@@ -7,10 +7,37 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <dialog class="dialog">
+        <form id="main-form" class="main-form" data-taskId="0">
+            <div>
+                <input class="main-input" type="text" id="title" name="title" placeholder="title">
+            </div>
+            <div>
+                <textarea name="details" id="details" cols="30" rows="10" placeholder="details"></textarea>
+            </div>
+            <div>
+                <input class="main-input" type="date" id="date" name="date">
+            </div>
+            <div>
+                <select id="priority" name="priority">
+                    <option selected>Low</option>
+                    <option>Medium</option>
+                    <option>High</option>
+                </select>
+            </div>
+            <button id="submit">submit</button>
+            <button id="cancel">cancel</button>
+        </form>
+    </dialog>
     <div class="main-container">
         <header>
-            <div class="logo"></div>
-            <h1>ToDo List</h1>
+            <div class="headder-left">
+                <div class="logo"></div>
+                <h1>ToDo List</h1>
+            </div>
+            <div class="newTask-cont">
+                <button data-projectId="0" id="newTask" class="newTaskBtn">New Task</button>
+            </div>
         </header>
     
         <nav>
@@ -36,29 +63,7 @@
                 </div>
             </div>
         </nav>
-    
         <main>
-            <button data-projectId="0" id="newTask">+</button>
-            <form id="main-form" data-taskId="0" hidden>
-                <div>
-                    <input type="text" id="title" name="title" placeholder="title">
-                </div>
-                <div>
-                    <textarea name="details" id="details" cols="30" rows="10" placeholder="details"></textarea>
-                </div>
-                <div>
-                    <input type="date" id="date" name="date">
-                </div>
-                <div>
-                    <select id="priority" name="priority">
-                        <option selected>Low</option>
-                        <option>Medium</option>
-                        <option>High</option>
-                    </select>
-                </div>
-                <button id="submit">submit</button>
-                <button id="cancel">cancel</button>
-            </form>
             <div class="inboxTab" id="general">
             </div>
         </main>
