@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="img/icons8-check-96.png">
 </head>
 <body>
     <dialog class="dialog">
         <form id="main-form" class="main-form" data-taskId="0">
             <div>
-                <input class="main-input" type="text" id="title" name="title" placeholder="title">
+                <input class="main-input" type="text" id="title" name="title" maxlength="30" placeholder="title">
             </div>
             <div>
                 <textarea name="details" id="details" cols="30" rows="10" placeholder="details"></textarea>
@@ -25,14 +26,14 @@
                     <option>High</option>
                 </select>
             </div>
-            <button id="submit">submit</button>
-            <button id="cancel">cancel</button>
+            <button id="submit" class="submit">submit</button>
+            <button id="cancel" class="cancel">cancel</button>
         </form>
     </dialog>
     <div class="main-container">
         <header>
             <div class="header-left">
-                <div class="logo"></div>
+                <div class="logo"><img class="listIcon" src="img/check-bold.svg" alt="list icon"></div>
                 <h1>ToDo List</h1>
             </div>
             <div class="newTask-cont">
@@ -43,28 +44,30 @@
         <nav>
             <div class="upper">
                 <div>
-                    <h3 id="inbox">Inbox</h3>
+                    <h3 id="inbox" class="inbox">Inbox</h3>
                 </div>
                 <div>
-                    <h3 id="today">Today</h3>
+                    <h3 id="today" class="today">Today</h3>
                 </div>
                 <div>
-                    <h3 id="weekly">This week</h3>
+                    <h3 id="weekly" class="weekly">This week</h3>
                 </div>
             </div>
     
             <div class="lower">
                 <h2>Projects</h2>
-                <form id="project-form">
-                    <input type="text" id="projectTitle" name="projectTitle" placeholder="Project title">
-                    <button type="submit" id="createProject">Create</button>
+                <form id="project-form" class="project-form">
+                    <input type="text" id="projectTitle" name="projectTitle" class="project-input" maxlength="25" placeholder="Project title">
+                    <button type="submit" id="createProject" class="create-project">Create</button>
                 </form>
                 <div class="all-projects">
                 </div>
             </div>
         </nav>
         <main id="main">
-            <div class="empty">Nothing to do... yet</div>
+            <div class="empty-cont">
+                <div class="empty">Nothing to do...</div>
+            </div>
             <div class="inboxTab" id="general">
             </div>
         </main>
