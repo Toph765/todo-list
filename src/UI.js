@@ -33,8 +33,9 @@ const renderTask = (() => {
         title.classList.add('title');
         duedate.classList.add('duedate');
         details.classList.add('details');
-        statusCont.classList.add('checkbox');
+        statusCont.classList.add('status-cont');
         label.classList.add('label');
+        checkbox.classList.add('checkbox');
         priority.classList.add(`${items.priority}`);
         priority.classList.add('priority');
         taskBtns.classList.add('taskBtns');
@@ -188,16 +189,16 @@ const renderTask = (() => {
         const generalList = document.querySelector('#general');
         newTaskBtn.setAttribute('data-projectId', '0');
         generalList.classList.replace(generalList.getAttribute('class'), 'todayTab');
-
-        if (list.length === 0) {
+        
+        while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
+        
+        const dailyTasks = list.filter(task => isToday(toDate(task.duedate)));
+        
+        if (dailyTasks.length === 0) {
             emptyPhrase.removeAttribute('hidden');
         } else {
             emptyPhrase.setAttribute('hidden', '');
 
-            while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
-            
-            const dailyTasks = list.filter(task => isToday(toDate(task.duedate)));
-            
             dailyTasks.forEach(task => displayAllTask(task, generalList));
         }
     }
@@ -210,14 +211,14 @@ const renderTask = (() => {
         newTaskBtn.setAttribute('data-projectId', '0');
         generalList.classList.replace(generalList.getAttribute('class'), 'weekTab');
 
-        if (list.length === 0) {
+        while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
+        
+        const weeklyTasks = list.filter(task => isThisWeek(toDate(task.duedate)));
+
+        if (weeklyTasks.length === 0) {
             emptyPhrase.removeAttribute('hidden');
         } else {
             emptyPhrase.setAttribute('hidden' ,'');
-
-            while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
-
-            const weeklyTasks = list.filter(task => isThisWeek(toDate(task.duedate)));
 
             weeklyTasks.forEach(task => displayAllTask(task, generalList));
         }
@@ -234,14 +235,20 @@ const renderProject = (() => {
 
         const projectTitle = document.createElement('div');
         const projectDelBtn = document.createElement('button');
+        const projDelImg = document.createElement('img');
 
         container.classList.add(`project-${project.id}`);
         container.classList.add('container-project');
-        container.setAttribute('data-projectId', `${project.id}`);
+        projectTitle.classList.add('project-title');
         projectDelBtn.classList.add('del-project');
+        projDelImg.classList.add('projDelImg');
+
+        container.setAttribute('data-projectId', `${project.id}`);
+        projectDelBtn.setAttribute('hidden', '');
+        projDelImg.setAttribute('src', 'img/trash-can-outline.svg');
+        projDelImg.setAttribute('alt', 'delete icon');
 
         projectTitle.textContent = `${project.title}`;
-        projectDelBtn.textContent = 'delete';
 
         container.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -250,11 +257,21 @@ const renderProject = (() => {
             displayProjectTasks(project.id);
         });
 
+        container.addEventListener('mouseover', () => {
+            projectDelBtn.removeAttribute('hidden');
+            container.setAttribute('style', 'border: 2px solid black;');
+        });
+        container.addEventListener('mouseleave', () => {
+            projectDelBtn.setAttribute('hidden', '');
+            container.removeAttribute('style');
+        });
+
         projectDelBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             initDelProjBtn(project.id);
         })
 
+        projectDelBtn.appendChild(projDelImg);
         container.append(projectTitle, projectDelBtn);
         projectDisplay.appendChild(container);
 
