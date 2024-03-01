@@ -4,6 +4,8 @@ import { AddtoList } from "./manageList";
 import { storeLocal } from "./storage";
 
 const renderTask = (() => {
+    /* DISPLAY TASK FUNCTION */
+
     function displayAllTask(items, display) {
         const container = document.createElement('div');
 
@@ -84,6 +86,8 @@ const renderTask = (() => {
         return display;
     }
 
+    /* DYNAMICALLY CREATED BUTTON FUNCTION*/
+
     function initCheckboxOn(items, checkbox, label, editBtn, editImg, container) {
         label.textContent = 'Done!';
         label.setAttribute('style', 'font-weight: bold;');
@@ -126,7 +130,6 @@ const renderTask = (() => {
         date.value = taskDate;
         priority.value = taskPriority;
 
-        /* taskForm.removeAttribute('hidden'); */
         dialog.showModal();
     }
 
@@ -141,10 +144,9 @@ const renderTask = (() => {
         while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
         
         updateDisplay(projectId);
-
-        console.log(projects.projectList);
-        console.log(projectId)
     }
+
+    /* UPDATE DISPLAY FUNCTION */
 
     function grabTab() {
         let currentTab = document.querySelector('#general').getAttribute('class');
@@ -173,9 +175,7 @@ const renderTask = (() => {
             emptyPhrase.setAttribute('hidden', '');
 
             while (generalList.lastElementChild) generalList.removeChild(generalList.lastElementChild);
-            console.log(list)
             list.forEach(task => displayAllTask(task, generalList));
-            console.log(projects.projectList)
         }
 
         
@@ -228,6 +228,8 @@ const renderTask = (() => {
 })()
 
 const renderProject = (() => {
+    /* DISPLAY PROJECT FUNCTION */
+
     function displayProject(project) {
         const newTaskBtn = document.querySelector('#newTask');
         const projectDisplay = document.querySelector('.all-projects');
@@ -278,6 +280,8 @@ const renderProject = (() => {
         return projectDisplay
     }
 
+    /* DYNAMICALLY CREATED BUTTON FUNCTION */
+
     function initDelProjBtn(projectId) {
         projects.removeProject(projectId);
 
@@ -303,8 +307,9 @@ const renderProject = (() => {
         storeLocal.storeProjects();
     }
 
+    /* UPDATE DISPLAY FUNCTION */
+
     function displayProjectTasks(id) {
-        /* let list = projects.projectList; */
         const emptyPhrase = document.querySelector('.empty');
         const generalList = document.querySelector('#general');
         generalList.classList.replace(generalList.getAttribute('class'), `${id}`);

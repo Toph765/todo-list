@@ -17,29 +17,26 @@ const projects = (() => {
 
     let currentProject = 0;
 
+    /* UPDATING AND RETRIEVING PROJECT*/
+
     function updateGeneralList(newList) {
-        generalList.taskList = newList
-        console.log(generalList.taskList)
-        return generalList
+        generalList.taskList = newList;
+        return generalList;
     }
 
     function updateProject(id) {
         let update = generalList.taskList.filter(task => task.project === id);
-        console.log(update)
         if (id !== 0) {
-            return projectList.filter(project => project.id === id)[0].taskList = update
+            return projectList.filter(project => project.id === id)[0].taskList = update;
         } else return;
     }
 
     function grabCurrentProjectTasks(id) {
-        console.log(projectList.filter(project => project.id === id)[0].taskList)
-        return projectList.filter(project => project.id === id)[0].taskList
+        return projectList.filter(project => project.id === id)[0].taskList;
     }
 
     function removeProject(id) {
-        console.log('before', projectList);
         projectList = projectList.filter(project => project.id !== id);
-        console.log('after', projectList);
         return projectList
     }
 
@@ -51,6 +48,8 @@ const projects = (() => {
         return projectList;
     }
 
+    /* PROJECT CREATOR FUNCTION */
+
     function createProject() {
         projectTitle = document.querySelector('#projectTitle').value;
         const projectId = createProjectId()
@@ -59,7 +58,6 @@ const projects = (() => {
         if (projectTitle === '') return
         else {
             const project = newProject(projectTitle, projectTasks, projectId);
-            console.log(project);
             addToProjectList(project);
             storeLocal.storeProjects();
         }
@@ -76,7 +74,6 @@ const projects = (() => {
 
     function addToProjectList(project) {
         projectList.push(project);
-        console.log(projectList);
     }
 
     function reset() {

@@ -1,6 +1,8 @@
 const AddtoList = (() => {
     let TodoList = [];
 
+    /* TASK MANAGEMENT FUNCTION */
+
     function addToList(task) {
         TodoList.push(task);
         console.log(TodoList);

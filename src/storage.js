@@ -7,10 +7,11 @@ const storeLocal = (() => {
         return JSON.stringify(item);
     }
 
+    /* LOCAL STORAGE MANAGEMENT FUNCTION */
+
     function storeProjects() {
         const projectList = projects.grabProjectList();
         localStorage.setItem('project', stringify(projectList));
-        console.log(JSON.parse(localStorage.getItem('project')));
     }
 
     function loadStorage() {

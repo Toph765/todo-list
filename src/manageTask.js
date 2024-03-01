@@ -16,6 +16,8 @@ const NewTask = (() => {
     let title;
     let details;
 
+    /* TASK CREATOR FUNCTION */
+
     function createNewTask() {
         const projectList = projects.grabProjectList();
 
@@ -26,15 +28,11 @@ const NewTask = (() => {
         let priority = document.getElementById('priority').value;
         let id = createId();
         let projectId = projects.grabCurrentProject();
-        let status = 'unfinished'
-
-        console.log(isThisWeek(toDate(duedate)))
-        console.log(isToday(toDate(duedate)))
+        let status = 'unfinished';
 
         if (title === '' || details === '' || duedate === '') return
 
         const task = createTask(id, title, details, duedate, priority, projectId, status);
-        console.log(task);
 
         addToTasklist(projectId, task);       
     }
@@ -44,14 +42,12 @@ const NewTask = (() => {
 
         if (projectId === 0) {
             projectList[0].taskList.push(task);
-            console.log(projectList)
         }
 
         for (let i = 1; i < projectList.length; i++) {
             if (projectList[i].id === projectId) {
                 AddtoList.addToList(task);
                 projectList[i].taskList.push(task);
-                console.log(projectList)
             }
         }
     }
@@ -66,6 +62,8 @@ const NewTask = (() => {
             return id = list[list.length-1].id + 1;
         }
     }
+
+    /* BUTTON FUNCTION */
 
     function reset() {
         let titleValue = document.getElementById('title');
@@ -113,19 +111,16 @@ const NewTask = (() => {
             if (taskList[i].id === id) {
                 taskList[i] = editedTask;
                 projects.updateProject(taskList[i].project);
-                console.log(projects.grabProjectList());
             }
         }
     }
 
     function submitTask() {
         const newTaskForm = document.querySelector('#main-form');
-        /* const newTaskBtn = document.querySelector('#newTask'); */
         const taskId = parseInt(newTaskForm.getAttribute('data-taskId'));
         const dialog = document.querySelector('.dialog');
         
         if (newTaskForm.classList.contains('edit-mode')) {
-            console.log('werk')
             editTask(taskId);
         } else {createNewTask()};
         storeLocal.storeProjects();
@@ -145,22 +140,16 @@ const NewTask = (() => {
         renderTask.updateDisplay(projectId);
         reset();
         dialog.close();
-        /* newTaskForm.setAttribute('hidden', '');
-        newTaskBtn.removeAttribute('hidden'); */
         
     }
 
     function cancelTask() {
         const cancelBtn = document.querySelector('#cancel');
         const dialog = document.querySelector('.dialog');
-        /* const newTaskForm = document.querySelector('#main-form');
-        const newTaskBtn = document.querySelector('#newTask'); */
 
         cancelBtn.addEventListener('click', (e) => {
             reset();
             dialog.close();
-            /* newTaskForm.setAttribute('hidden', '');
-            newTaskBtn.removeAttribute('hidden'); */
             e.preventDefault();
         })
     }
@@ -168,13 +157,10 @@ const NewTask = (() => {
     function openTaskCreator() {
         const newTaskBtn = document.querySelector('#newTask');
         const dialog = document.querySelector('.dialog');
-        /* const newTaskForm = document.querySelector('#main-form'); */
 
         newTaskBtn.addEventListener('click', (e) => {
             projects.grabProjectId(e);
             dialog.showModal();
-            /* newTaskForm.removeAttribute('hidden'); */
-            /* newTaskBtn.setAttribute('hidden', ''); */
             e.preventDefault();
         })
     }
